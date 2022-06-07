@@ -1,11 +1,8 @@
 package ru.netology;
 
 import com.codeborne.selenide.Condition;
-import com.github.javafaker.Faker;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.Locale;
 
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
@@ -32,10 +29,10 @@ class AuthTest {
 
     @Test
     void testActiveUserWhenIncorrectLogin() {
-        Faker faker = new Faker(new Locale("en"));
         var regUser = getUser("active");
+        var regOtherUser = getUser("active");
         setUppAll(regUser);
-        $("[data-test-id =\"login\"] input").setValue(faker.name().name());
+        $("[data-test-id =\"login\"] input").setValue(regOtherUser.login);
         $("[data-test-id =\"password\"] input").setValue(regUser.password);
         $x("//*[text()=\"Продолжить\"]").click();
         $(byText("Неверно указан логин или пароль")).should(Condition.visible);
@@ -43,11 +40,11 @@ class AuthTest {
 
     @Test
     void testActiveUserWhenIncorrectPassword() {
-        Faker faker = new Faker(new Locale("en"));
         var regUser = getUser("active");
+        var regOtherUser = getUser("active");
         setUppAll(regUser);
         $("[data-test-id =\"login\"] input").setValue(regUser.login);
-        $("[data-test-id =\"password\"] input").setValue(faker.internet().password());
+        $("[data-test-id =\"password\"] input").setValue(regOtherUser.password);
         $x("//*[text()=\"Продолжить\"]").click();
         $(byText("Неверно указан логин или пароль")).should(Condition.visible);
     }
@@ -64,10 +61,10 @@ class AuthTest {
 
     @Test
     void testBlockedUserWhenIncorrectLogin() {
-        Faker faker = new Faker(new Locale("en"));
         var regUser = getUser("blocked");
+        var regOtherUser = getUser("blocked");
         setUppAll(regUser);
-        $("[data-test-id =\"login\"] input").setValue(faker.name().name());
+        $("[data-test-id =\"login\"] input").setValue(regOtherUser.login);
         $("[data-test-id =\"password\"] input").setValue(regUser.password);
         $x("//*[text()=\"Продолжить\"]").click();
         $(byText("Неверно указан логин или пароль")).should(Condition.visible);
@@ -75,11 +72,11 @@ class AuthTest {
 
     @Test
     void testBlockedUserWhenIncorrectPassword() {
-        Faker faker = new Faker(new Locale("en"));
         var regUser = getUser("blocked");
+        var regOtherUser = getUser("blocked");
         setUppAll(regUser);
         $("[data-test-id =\"login\"] input").setValue(regUser.login);
-        $("[data-test-id =\"password\"] input").setValue(faker.internet().password());
+        $("[data-test-id =\"password\"] input").setValue(regOtherUser.password);
         $x("//*[text()=\"Продолжить\"]").click();
         $(byText("Неверно указан логин или пароль")).should(Condition.visible);
     }
